@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajax</title>
+    <style>
+        iframe {
+            width: 100%;
+        }
+    </style>
+    <script src="https://unpkg.com/htmx.org@2.0.4"
+        integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="load">
+        <h2>Ajax</h2>
+        <iframe src="./info.html" frameborder="0"></iframe>
+    </div>
+    <button id="load">再読み込み（非同期）</button>
+    <div>
+        <h2>Reload</h2>
+        <iframe src="./info.html" frameborder="0"></iframe>
+    </div>
+    <button id="reload">再読み込み（リロード）</button>
+    <div class="htmx">
+        <h2>HTMX</h2>
+        <!-- ここに info.html の内容を読み込む -->
+        <div id="ajax-target" hx-get="info.html" hx-trigger="load"></div>
+    </div>
+    <!-- 再読み込みボタン -->
+    <button hx-get="info.html" hx-target="#ajax-target" hx-swap="innerHTML">
+        再読み込み（非同期）
+    </button>
+
+    <script>
+        let ajaxload = function () {
+            let xhr = new XMLHttpRequest();
+            xhr.addEventListener('load', function () {
+                document.querySelector('.load iframe').src = './info.html';
+                console.log(xhr.responseXML.body.innerHTML);
+            });
+            xhr.open('GET', 'info.html');
+            xhr.responseType = 'document';
+            xhr.send();
+        };
+
+        document.querySelector('#reload').addEventListener('click', function () {
+            //リロード
+            location.reload();
+        });
+        document.querySelector('#load').addEventListener('click', function () {
+            //非同期
+            ajaxload();
+        });
+    </script>
+</body>
+
+</html>
