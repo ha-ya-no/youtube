@@ -1,4 +1,4 @@
-const API_KEY = 'AIzaSyBPVywieQEB_-ycyEdjanxZlUYeqJmG_qI';
+const API_KEY = 'AIzaSyA12nIipiDdJoQlIu9RbhszNKr9H2W0MeU';
 
 let savedVideos = [];
 let searchResults = [];
