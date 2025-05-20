@@ -2,208 +2,28 @@
 <html lang="ja">
 
 <head>
-    <meta charset="utf-8">
-    <style>
-        ul {
-            display: flex;
-            width: fit-content;
-            margin: 0 auto 30px;
-            gap: 20px;
-        }
-
-        li {
-            cursor: pointer;
-            list-style: none;
-        }
-
-        #player {
-            display: block;
-            margin: 0 auto 30px;
-        }
-
-        .ytMovie {
-            display: block;
-            margin: 0 auto;
-        }
-
-        #current-time {
-            margin-top: 20px;
-            text-align: center;
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iPod風 YouTube アプリ</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
-    <!-- 1. ここの<div>タグがYoutubeの<iframe>に置き換わる。 -->
-    <div id="player"></div>
-
-    <nav>
-        <ul>
-            <li id="doplay">再生</li>
-            <li id="dostop">停止</li>
-            <li id="dopause">一時停止</li>
-            <li id="mute">ミュート</li>
-            <li id="do10sNext">10秒先へ</li>
-            <li id="do10sPrev">10秒戻る</li>
-
-            <li>
-                <form id="doSpeed">
-                    <input type="radio" id="mslow" name="speed" value="0.25" />
-                    <label for="mslow">0.25</label>
-                    <input type="radio" id="slow" name="speed" value="0.5" />
-                    <label for="slow">0.5</label>
-                    <input type="radio" id="normal" name="speed" value="1.0" checked />
-                    <label for="normal">1</label>
-                    <input type="radio" id="hspeed" name="speed" value="1.5" />
-                    <label for="hspeed">1.5</label>
-                    <input type="radio" id="mhspeed" name="speed" value="2" />
-                    <label for="mhspeed">2</label>
-                </form>
-            </li>
-        </ul>
-    </nav>
-
-    <label>ボリューム<input type="range" min="0" max="100" name="volume" id="volume" value="50" />
-        <span id="volumeNum"></span>
-    </label>
-
-    <select id="MovieId" class="ytMovie" name="ytMovie">
-        <option selected>選択してください。</option>
-        <option value="QiYOkmrI1jg">XG - IYKYK (Official Music Video)</option>
-        <option value="RhDnRE7nciw">XG - HESONOO & X-GENE (Performance Video)</option>
-        <option value="BydbhAzmAzg">XG - IN THE RAIN (Official Music Video)</option>
-        <option value="T6YVgEpRU6Q">XG - LEFT RIGHT (Official Music Video)</option>
-    </select>
-
-    <!-- 現在の再生時間を表示する -->
-    <div id="current-time">
-        <span id="elapsed-time">00:00</span> / <span id="duration-time">00:00</span>
+    <div class="container">
+        <div class="ipod">
+            <div class="screen" id="screen"></div>
+            <div class="wheel">
+                <div class="wheel-inner" id="center-btn"></div>
+                <div class="buttons">
+                    <button id="menu-btn" class="circle-btn">Menu</button>
+                    <button id="prev-btn" class="circle-btn">◀︎◀︎</button>
+                    <button id="next-btn" class="circle-btn">▶︎▶︎</button>
+                    <button id="play-pause-btn" class="circle-btn">▶︎||</button>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <script>
-        // 2. This code loads the IFrame Player API code asynchronously.
-        var tag = document.createElement('script');
-        tag.src = 'https://www.youtube.com/iframe_api';
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        let player;
-        let youtubeId = 'aHTI0SXGVS0';
-
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                height: '360',
-                width: '640',
-                videoId: youtubeId,
-                playerVars: {
-                    playsinline: 1,
-                    controls: 0
-                },
-                events: {
-                    onReady: onPlayerReady
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            event.target.playVideo();
-            let currentVol = 5;
-            event.target.setVolume(currentVol);
-            document.querySelector('#volume').value = currentVol;
-            document.querySelector('#volumeNum').textContent = currentVol;
-
-            // 動画の経過時間と総時間を更新
-            setInterval(updateTimeDisplay, 1000);
-        }
-
-        function updateTimeDisplay() {
-            if (player) {
-                let currentTime = player.getCurrentTime();
-                let duration = player.getDuration();
-
-                // 経過時間
-                let elapsedMinutes = Math.floor(currentTime / 60);
-                let elapsedSeconds = Math.floor(currentTime % 60);
-                document.querySelector('#elapsed-time').textContent = formatTime(elapsedMinutes, elapsedSeconds);
-
-                // 総時間
-                let durationMinutes = Math.floor(duration / 60);
-                let durationSeconds = Math.floor(duration % 60);
-                document.querySelector('#duration-time').textContent = formatTime(durationMinutes, durationSeconds);
-            }
-        }
-
-        function formatTime(minutes, seconds) {
-            return String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
-        }
-
-        // 再生イベント
-        let doplayBtn = document.querySelector('#doplay');
-        doplayBtn.addEventListener('click', function () {
-            player.playVideo();
-        });
-
-        // 停止イベント
-        let dostopBtn = document.querySelector('#dostop');
-        dostopBtn.addEventListener('click', function () {
-            player.stopVideo();
-        });
-
-        // 一時停止イベント
-        let dopauseBtn = document.querySelector('#dopause');
-        dopauseBtn.addEventListener('click', function () {
-            player.pauseVideo();
-        });
-
-        // ミュートイベント
-        let onMuteBtn = document.querySelector('#mute');
-        onMuteBtn.addEventListener('click', function () {
-            if (player.isMuted()) {
-                player.unMute();
-                onMuteBtn.innerText = 'ミュート';
-            } else {
-                player.mute();
-                onMuteBtn.innerText = 'ミュート解除';
-            }
-        });
-
-        // 10秒前へイベント
-        let onePrevBtn = document.querySelector('#do10sPrev');
-        onePrevBtn.addEventListener('click', function () {
-            let currentTime = player.getCurrentTime();
-            player.seekTo(currentTime - 10);
-        });
-
-        // 10秒後へイベント
-        let oneNextBtn = document.querySelector('#do10sNext');
-        oneNextBtn.addEventListener('click', function () {
-            let currentTime = player.getCurrentTime();
-            player.seekTo(currentTime + 10);
-        });
-
-        // ボリュームイベント
-        let volumeBtn = document.querySelector('#volume');
-        let volumeTxt = document.querySelector('#volumeNum');
-        volumeBtn.addEventListener('input', function () {
-            player.setVolume(this.value);
-            volumeTxt.textContent = this.value;
-        });
-
-        // 動画切り替えイベント
-        let movieid = document.querySelector('#MovieId');
-        movieid.addEventListener('change', function () {
-            youtubeId = movieid.value;
-            player.destroy();
-            onYouTubeIframeAPIReady();
-        });
-
-        // 再生スピードイベント
-        let speedBtn = document.querySelector('#doSpeed');
-        speedBtn.addEventListener('change', function () {
-            player.setPlaybackRate(parseFloat(speedBtn.speed.value));
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>

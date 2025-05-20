@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>youtube</title>
+</head>
+
+<body>
+    <script>
+        function ytSearch(val) {
+            const key = 'APIキー'; //自分のキーに書き換えます。
+            const num = 10;
+            const part = 'snippet';
+            const type = 'video';
+            const query = val;
+            fetch(
+                `https://www.googleapis.com/youtube/v3/search?type=${type}&part=${part}&maxResults=${num}&key=${key}&q=${query}&playsinline=1`
+            )
+                .then((data) => data.json())
+                .then((obj) => {
+                    console.log(obj);
+                });
+        }
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>json</title>
+</head>
+
+<body>
+    <script>
+        let json = { 名前: '大谷翔平', ポジション: 'ピッチャー', 年齢: 22 };
+        let jsonMenb = {
+            メンバー: [
+                { 姓: '鈴木', 名: '一郎' },
+                { 姓: '田中', 名: '花子' },
+                { 姓: '山田', 名: '太郎' }
+            ]
+        };
+        console.log(json.ポジション);
+        console.log(json["ポジション"]);
+        console.log(jsonMenb.メンバー[2]["名"]);
+    </script>
+</body>
+
+</html>

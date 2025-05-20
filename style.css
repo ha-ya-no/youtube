@@ -1,0 +1,189 @@
+@charset "utf-8";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #e5e5e5;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ipod {
+    width: 320px;
+    height: 500px;
+    background: linear-gradient(135deg, #a8a8a8, #e0e0e0);
+    border-radius: 40px;
+    padding: 20px;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.screen {
+    background-color: #1c1c1c;
+    color: white;
+    width: 100%;
+    height: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 10px;
+    position: relative;
+}
+
+/* ホイール */
+.wheel {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 140px;
+    border: 8px solid #fff;
+    border-radius: 50%;
+    background-color: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wheel-inner {
+    width: 60px;
+    height: 60px;
+    background-color: #fff;
+    border-radius: 50%;
+    z-index: 1;
+    cursor: pointer;
+}
+
+/* ボタン配置 */
+.buttons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.circle-btn {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #444;
+    color: white;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 2;
+}
+
+.circle-btn:hover {
+    background-color: #666;
+}
+
+#menu-btn {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#prev-btn {
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+}
+
+#next-btn {
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+#play-pause-btn {
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* 画面とリスト */
+.screen-content {
+    display: none;
+}
+
+.screen-content.active {
+    display: block;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    padding: 15px;
+    background-color: #333;
+    color: white;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+li.selected {
+    background-color: #007aff;
+}
+
+li:hover {
+    background-color: #555;
+}
+
+/* 検索バーとボタン */
+#search-bar {
+    width: calc(100% - 90px);
+    padding: 8px;
+}
+
+#search-btn {
+    padding: 8px 12px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#search-btn:hover {
+    background-color: #666;
+}
+
+#video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    background: #fff;
+    /* display: block; */
+}
+
+#addBlock {
+    display: block;
+}
+
+/* #removeBlock {
+    display: none;
+} */
